@@ -1,0 +1,16 @@
+{
+  "name": "mapper-nes-boiler-plate",
+  "build": 1,
+  "versionVarPrefix": "",
+  "romName": "mapper-nes-boiler-plate",
+  "objPath": "obj",
+  "romsPath": "roms",
+  "sourcePath": "src",
+  "bin": "local",
+  "ca65Opts": "-DCHR_CHIPS=1",
+  "sources": [
+    "src/main.s"
+  ],
+  "libraries": [
+  ]
+}

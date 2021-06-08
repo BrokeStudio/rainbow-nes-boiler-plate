@@ -1,0 +1,8 @@
+
+# Visual Studio Code folder
+.vscode
+
+# Compilation folders
+bin/*.exe
+obj/
+roms/
