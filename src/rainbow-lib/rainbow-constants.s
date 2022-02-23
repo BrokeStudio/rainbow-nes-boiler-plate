@@ -1,6 +1,13 @@
 ; ################################################################################
 ; RAINBOW CONSTANTS
 
+; mapper registers
+CONFIG    = $4100
+RX        = $4101
+TX        = $4102
+RX_ADD    = $4103
+TX_ADD    = $4104
+
 ; commands to ESP
 .enum TO_ESP
 
@@ -11,8 +18,19 @@
   DEBUG_LOG                       ; Debug / Log data
   BUFFER_CLEAR_RX_TX              ; Clear RX/TX buffers
   BUFFER_DROP_FROM_ESP            ; Drop messages from ESP buffer (TX)
-  WIFI_GET_STATUS                 ; Get WiFi connection status
+  ESP_GET_FIRMWARE_VERSION        ; Get ESP/Rainbow firmware version
   ESP_RESTART                     ; Restart ESP
+
+; WIFI CMDS
+  WIFI_GET_STATUS                 ; Get WiFi connection status
+  WIFI_GET_SSID                   ; Get WiFi network SSID
+  WIFI_GET_IP                     ; Get WiFi IP address
+
+; ACESS POINT CMDS
+  AP_GET_SSID                     ; Get Access Point network SSID
+  AP_GET_IP                       ; Get Access Point IP address
+  AP_GET_CONFIG                   ; Get Access Point config
+  AP_SET_CONFIG                   ; Set Access Point config
 
 ; RND CMDS
   RND_GET_BYTE                    ; Get random byte
@@ -43,6 +61,7 @@
 ; FILE COMMANDS
   FILE_OPEN                       ; Open working file
   FILE_CLOSE                      ; Close working file
+  FILE_STATUS                     ; Get working file status
   FILE_EXISTS                     ; Check if file exists
   FILE_DELETE                     ; Delete a file
   FILE_SET_CUR                    ; Set working file cursor position a file
@@ -64,7 +83,13 @@
 ; ESP CMDS
   READY                           ; ESP is ready
   DEBUG_LEVEL                     ; Returns debug configuration
+  ESP_FIRMWARE_VERSION            ; Returns ESP/Rainbow firmware version
+
+; WIFI / AP CMDS
   WIFI_STATUS                     ; Returns WiFi connection status
+  SSID                            ; Returns WiFi / AP SSID
+  IP                              ; Returns WiFi / AP IP address
+  AP_CONFIG                       ; Returns AP config
 
 ; RND CMDS
   RND_BYTE                        ; Returns random byte value
@@ -83,6 +108,7 @@
   NETWORK_REGISTERED              ; Returns registered networks status
 
 ; FILE CMDS
+  FILE_STATUS                     ; Returns working file status
   FILE_EXISTS                     ; Returns if file exists or not
   FILE_DELETE                     ; See FILE_DELETE_RES enum for details on returned value
   FILE_LIST                       ; Returns path file list (FILE_GET_LIST)
@@ -141,7 +167,14 @@ NUM_FILES = 64
   WPA_WPA2_PSK = 8
 .endenum
 
-; FILE_DELETE return values
+; File config masks/flags
+.enum FILE_CONFIG_FLAGS
+  ACCESS_MODE_MASK = %00000001
+  AUTO_ACCESS_MODE = 0
+  MANUAL_ACCESS_MODE = 1
+.endenum
+
+; FILE_DELETE result codes
 .enum FILE_DELETE_RES
   SUCCESS
   ERROR_WHILE_DELETING_FILE
@@ -149,12 +182,29 @@ NUM_FILES = 64
   INVALID_PATH_OR_FILE
 .endenum
 
-; FILE_DOWNLOAD return values
+; FILE_DOWNLOAD result codes
 .enum FILE_DOWNLOAD_RES
   SUCCESS
+  INVALID_DESTINATION
   ERROR_WHILE_DELETING_FILE
-  DOWNLOAD_FAILED
-  INVALID_PATH_OR_FILE
+  UNKNOWN_OR_UNSUPPORTED_PROTOCOL
+  NETWORK_ERROR
+  HTTP_STATUS_NOT_IN_2XX
+.endenum
+
+; FILE_DOWNLOAD network error codes
+.enum FILE_DOWNLOAD_NETWORK_ERR
+  CONNECTION_FAILED = -1
+  SEND_HEADER_FAILED = -2
+  SEND_PAYLOAD_FAILED = -3
+  NOT_CONNECTED = -4
+  CONNECTION_LOST = -5
+  NO_STREAM = -6
+  NO_HTTP_SERVER = -7
+  TOO_LESS_RAM = -8
+  ENCODING = -9
+  STREAM_WRITE = -10
+  READ_TIMEOUT = -11
 .endenum
 
 ; Rainbow registers

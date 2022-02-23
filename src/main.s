@@ -127,6 +127,7 @@ zp31:               .res 1
 
 ; BUILD VERSION
 .include "version.s"
+.out .sprintf( "# version %s", STR_VERSION )
 .out .sprintf( "# build %s", STR_BUILD )
 .out ""
 
@@ -135,6 +136,7 @@ zp31:               .res 1
 .include "nes-lib/nes-lib.s"
 
 ; RAINBOW
+; documentation: https://github.com/BrokeStudio/rainbow-lib
 .segment "CODE"
 .include "rainbow-lib/rainbow.s"
 
@@ -226,7 +228,13 @@ apu_clear_loop:
 
   ; disable ESP for now
   lda #0
-  sta $5001
+  sta RNBW::CONFIG
+
+  ; init Rainbow RX/TX RAM addresses
+  lda #>RNBW::BUF_IN
+  sta RNBW::RX_ADD
+  lda #>RNBW::BUF_OUT
+  sta RNBW::TX_ADD
 
 /*
                                                  
@@ -263,13 +271,7 @@ apu_clear_loop:
 
   ; enable ESP / disable IRQ
   lda #1
-  sta $5001
-
-  ; clear TX/RX buffers
-  lda #1
-  sta $5000
-  lda #RNBW::TO_ESP::BUFFER_CLEAR_RX_TX
-  sta $5000
+  sta RNBW::CONFIG
 
   ; start game or whatever
 :
@@ -294,7 +296,7 @@ a8"     ""  88P'   "Y8  a8P_____88  a8"    `Y88  88    88     I8[    ""
   .byte "/mapper-nes-boiler-plate b"
   build:
   .byte STR_BUILD
-  .byte "/(c) 2021 Broke Studio/code Antoine Gohin/"
+  .byte "/(c) 2021-2022 Broke Studio/code Antoine Gohin/"
 
 /*
                                      
@@ -420,7 +422,7 @@ skipNtsc:
 .proc vector_irq
 
   ; ESP irq ?
-  lda $5001
+  lda RNBW::RX
   bmi :+
     ; no message to read, then return
     rti
