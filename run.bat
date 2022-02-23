@@ -7,4 +7,4 @@ call compile.bat
 ping -n 2 127.0.0.1 >nul
 
 :: start ROM
-start roms/mapper-nes-boiler-plate.nes
+start roms/rainbow-nes-boiler-plate.nes
