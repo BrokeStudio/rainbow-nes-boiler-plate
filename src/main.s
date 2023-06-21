@@ -17,7 +17,7 @@
 */
 .segment "HEADER"
 .import NES_MAPPER
-.import NES_PRG_BANKS,NES_CHR_BANKS,NES_MIRRORING
+.import NES_PRG_BANKS,NES_CHR_BANKS
 
 .define RNBW_CHR_ROM      0 ; CHR-ROM only
 .define RNBW_CHR_RAM      1 ; CHR-RAM only
@@ -50,10 +50,10 @@
 .else
   .byte <NES_CHR_BANKS
 .endif
-.byte <(NES_MIRRORING|(NES_MAPPER&$0F)<<4) ;|%00000010 ; (battery)
+.byte <((NES_MAPPER&$0F)<<4) ;|%00000010 ; (battery)
 .byte <((NES_MAPPER&$F0)|%00001000) ; upper nybble of mapper number + iNES 2.0
 .byte <((NES_MAPPER&$F00)>>8)
-.byte $00
+.byte ((>NES_CHR_BANKS)<<4)|>NES_PRG_BANKS
 .byte 9 ; PRG-RAM shift counter - (64 << shift counter)
 .if CHR_CHIPS <> RNBW_CHR_ROM
   .byte 9 ; CHR-RAM shift counter - (64 << shift counter)
@@ -124,6 +124,9 @@ zp31:               .res 1
                                                                                   
                                                                                   
 */
+
+; MAPPER REGISTERS
+.include "mapper-registers.s"
 
 ; BUILD VERSION
 .include "version.s"
@@ -293,10 +296,10 @@ a8"     ""  88P'   "Y8  a8P_____88  a8"    `Y88  88    88     I8[    ""
 
   ; credits+build
   credits:
-  .byte "/mapper-nes-boiler-plate b"
+  .byte "/rainbow-mapper-nes-boiler-plate b"
   build:
   .byte STR_BUILD
-  .byte "/(c) 2021-2022 Broke Studio/code Antoine Gohin/"
+  .byte "/(c) 2021-2023 Broke Studio/code Antoine Gohin/"
 
 /*
                                      
@@ -466,16 +469,7 @@ a8"     ""  88P'    "8a  88P'   "Y8
 */
 .if CHR_CHIPS <> RNBW_CHR_RAM
 
-  .macro chr c
-    .segment .sprintf("CHR%02d",c)
-  .endmacro
-
-  .repeat 63,C
-    chr C
-    .incbin "gfx/8K-blank.chr"
-  .endrepeat
-
-  .segment "CHR63"
+  .segment "CHR00"
     .incbin "gfx/ascii.chr"
     .incbin "gfx/ascii.chr"
 

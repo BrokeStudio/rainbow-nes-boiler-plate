@@ -1,6 +1,6 @@
 {
   "name": "rainbow-nes-boiler-plate",
-  "build": 6,
+  "build": 0,
   "version": "0.0.1",
   "versionVarPrefix": "",
   "romName": "rainbow-nes-boiler-plate",
@@ -9,8 +9,6 @@
   "sourcePath": "src",
   "bin": "local",
   "ca65Opts": "-DCHR_CHIPS=1",
-  "sources": [
-    "src/main.s"
-  ],
+  "sources": ["src/main.s"],
   "libraries": []
 }
