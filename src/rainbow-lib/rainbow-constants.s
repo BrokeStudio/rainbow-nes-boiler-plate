@@ -2,11 +2,11 @@
 ; RAINBOW CONSTANTS
 
 ; Rainbow mapper registers
-CONFIG    = $4170
-RX        = $4171
-TX        = $4172
-RX_ADD    = $4173
-TX_ADD    = $4174
+CONFIG    = $4190
+RX        = $4191
+TX        = $4192
+RX_ADD    = $4193
+TX_ADD    = $4194
 
 ; commands to ESP
 .enum TO_ESP
@@ -88,7 +88,7 @@ TX_ADD    = $4174
   READY                           ; ESP is ready
   DEBUG_LEVEL                     ; Return debug configuration
   ESP_FIRMWARE_VERSION            ; Return ESP/Rainbow firmware version
-  ESP_FACTORY_RESET               ; See ESP_FACTORY_RESET_RES enum for details on returned
+  ESP_FACTORY_RESET               ; See ESP_FACTORY_RESET_RES enum for details on returned value
 
 ; WIFI / ACCESS POINT CMDS
   WIFI_STATUS                     ; Return Wi-Fi connection status

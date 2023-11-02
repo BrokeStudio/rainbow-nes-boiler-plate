@@ -1,7 +1,7 @@
 @echo off
 
 :: sources
-bin\ca65 -g --debug-info -I src -o obj/main.o src/main.s -DCHR_CHIPS=1
+bin\ca65 -g --debug-info -I src -o obj/main.o src/main.s -DCHR_CHIPS=2
 
 :: libraries
 

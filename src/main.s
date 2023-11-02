@@ -50,9 +50,9 @@
 .else
   .byte <NES_CHR_BANKS
 .endif
-.byte <((NES_MAPPER&$0F)<<4) ;|%00000010 ; (battery)
-.byte <((NES_MAPPER&$F0)|%00001000) ; upper nybble of mapper number + iNES 2.0
-.byte <((NES_MAPPER&$F00)>>8)
+.byte ((NES_MAPPER&$0F)<<4) ;|%00000010 ; let's disable battery save for now
+.byte ((NES_MAPPER&$F0)|%00001000) ; upper nybble of mapper number + iNES 2.0
+.byte ((NES_MAPPER&$F00)>>8)
 .byte ((>NES_CHR_BANKS)<<4)|>NES_PRG_BANKS
 .byte 9 ; PRG-RAM shift counter - (64 << shift counter)
 .if CHR_CHIPS <> RNBW_CHR_ROM

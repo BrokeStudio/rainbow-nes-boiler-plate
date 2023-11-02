@@ -16,6 +16,7 @@ MAP_PRG_D_HI        = $410D
 MAP_PRG_E_HI        = $410E
 MAP_PRG_F_HI        = $410F
 
+MAP_PRG_5           = $4115
 MAP_PRG_5_LO        = $4115
 MAP_PRG_6_LO        = $4116
 MAP_PRG_7_LO        = $4117
@@ -41,6 +42,9 @@ MAP_NT_A_CONTROL    = $412A
 MAP_NT_B_CONTROL    = $412B
 MAP_NT_C_CONTROL    = $412C
 MAP_NT_D_CONTROL    = $412D
+
+MAP_NT_W_BANK       = $412E
+MAP_NT_W_CONTROL    = $412F
 
 MAP_CHR_0_HI        = $4130
 MAP_CHR_1_HI        = $4131
@@ -77,14 +81,12 @@ MAP_CHR_E_LO        = $414E
 MAP_CHR_F_LO        = $414F
 
 ; Scanline IRQ
-;MAP_PPU_IRQ_LATCH   = $4150
-;MAP_PPU_IRQ_CONTROL = $4151
-;MAP_PPU_IRQ_OFFSET  = $4152
-
 MAP_PPU_IRQ_LATCH   = $4150
-MAP_PPU_IRQ_ENABLE  = $4151
+MAP_PPU_IRQ_ENABLE  = $4151 ; write
+MAP_PPU_IRQ_STATUS  = $4151 ; read
 MAP_PPU_IRQ_DISABLE = $4152
 MAP_PPU_IRQ_OFFSET  = $4153
+MAP_PPU_IRQ_M2_CNT  = $4154
 
 ; CPU Cycle IRQ
 MAP_CPU_IRQ_LATCH_LO  = $4158
@@ -94,15 +96,21 @@ MAP_CPU_IRQ_ACK       = $415B
 
 ; Miscellaneaous
 MAP_VERSION         = $4160
-MAP_MUL_A           = $4161
-MAP_MUL_B           = $4162
+
+; Window Mode
+MAP_WINDOW_X_START  = $4170
+MAP_WINDOW_X_END    = $4171
+MAP_WINDOW_Y_START  = $4172
+MAP_WINDOW_Y_END    = $4173
+MAP_WINDOW_X_SCROLL = $4174
+MAP_WINDOW_Y_SCROLL = $4175
 
 ; ESP / WiFi
-MAP_RNBW_CONFIG     = $4170
-MAP_RNBW_RX         = $4171
-MAP_RNBW_TX         = $4172
-MAP_RNBW_RX_ADD     = $4173
-MAP_RNBW_TX_ADD     = $4174
+MAP_RNBW_CONFIG     = $4190
+MAP_RNBW_RX         = $4191
+MAP_RNBW_TX         = $4192
+MAP_RNBW_RX_ADD     = $4193
+MAP_RNBW_TX_ADD     = $4194
 
 ; Audio expansion
 MAP_SND_P1_CTRL     = $41A0
@@ -117,11 +125,6 @@ MAP_SND_SAW_HIGH    = $41A8
 
 ; ################################################################################
 ; MAPPER FLAGS / MASKS
-
-CHIP_MANUF_ID         = $BF
-CHIP_SIZE_128K        = $D5
-CHIP_SIZE_256K        = $D6
-CHIP_SIZE_512K        = $D7
 
 PRG_ROM_MODE_0        = %00000000 ; 32K
 PRG_ROM_MODE_1        = %00000001 ; 16K + 16K
